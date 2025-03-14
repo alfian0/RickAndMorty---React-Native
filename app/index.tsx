@@ -5,8 +5,8 @@ import {
   Image,
   Dimensions,
 } from "react-native";
-import { useIndex } from "./index.hooks";
 import { Card, Text, Button } from "react-native-paper";
+import useIndex from "./index.hooks";
 
 const numColumns = 2; // Number of columns in grid
 const screenWidth = Dimensions.get("window").width;
@@ -40,7 +40,7 @@ export default function Index() {
     <View className="flex-1">
       <FlatList
         data={data}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item, index) => String(index)}
         numColumns={numColumns} // Enable grid layout
         columnWrapperStyle={{
           justifyContent: "space-between",

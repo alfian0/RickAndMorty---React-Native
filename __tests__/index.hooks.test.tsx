@@ -1,4 +1,4 @@
-import { useIndex } from "@/app/index.hooks";
+import useIndex, { Character } from "@/app/index.hooks";
 import { renderHook, act, waitFor } from "@testing-library/react-native";
 import fetchMock from "jest-fetch-mock";
 
@@ -31,7 +31,7 @@ describe("useIndex Hook", () => {
     const { result } = renderHook(() => useIndex());
 
     expect(result.current.isLoading).toBe(true);
-    expect(result.current.data).toBeUndefined();
+    expect(result.current.data).toHaveLength(0);
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
@@ -47,7 +47,7 @@ describe("useIndex Hook", () => {
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
-    expect(result.current.data).toBeUndefined();
+    expect(result.current.data).toHaveLength(0);
     expect(result.current.error).toBe("API is down");
   });
 

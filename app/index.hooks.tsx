@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-interface Location {
+export interface Location {
   name: string;
   url: string;
 }
 
-interface Character {
+export interface Character {
   id: number;
   name: string;
   status: "Alive" | "Dead";
@@ -17,9 +17,9 @@ interface Character {
   image: string;
 }
 
-export const useIndex = () => {
+export default function useIndex() {
   const [data, setData] = useState<Character[]>([]);
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<any>();
   const [isLoading, setIsLoading] = useState(false);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const [page, setPage] = useState(1);
@@ -72,4 +72,4 @@ export const useIndex = () => {
     refetch: () => fetchData(1),
     loadMore,
   };
-};
+}

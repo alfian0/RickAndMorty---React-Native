@@ -1,7 +1,7 @@
 import { renderHook, act, waitFor } from "@testing-library/react-native";
 import { server } from "../mocks/server";
 import { http, HttpResponse } from "msw";
-import { useIndex } from "@/app/index.hooks";
+import useIndex from "@/app/index.hooks";
 
 describe("useIndex Hook (MSW)", () => {
   it("fetches and returns character data successfully", async () => {
@@ -27,7 +27,7 @@ describe("useIndex Hook (MSW)", () => {
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
 
-    expect(result.current.data).toBeUndefined();
+    expect(result.current.data).toHaveLength(0);
     expect(result.current.error).toBeDefined();
   });
 
