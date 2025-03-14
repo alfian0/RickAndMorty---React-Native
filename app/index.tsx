@@ -1,6 +1,12 @@
 import { Text, View } from "react-native";
+import { useIndex } from "./index.hooks";
 
 export default function Index() {
+  const { data, error, isLoading, refetch } = useIndex();
+
+  console.log(isLoading);
+  console.log(data);
+
   return (
     <View
       style={{
