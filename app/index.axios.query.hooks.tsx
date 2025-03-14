@@ -1,12 +1,12 @@
-import Character, { APIResponse } from "@/types/character";
+import { APIResponse } from "@/types/character";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const fetchCharacters = async ({ pageParam = 1 }): Promise<APIResponse> => {
-  const response = await fetch(
+  const { data } = await axios.get<APIResponse>(
     `https://rickandmortyapi.com/api/character?page=${pageParam}`
   );
-  if (!response.ok) throw new Error("Failed to fetch data");
-  return response.json();
+  return data;
 };
 
 export default function useIndex() {
