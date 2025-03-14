@@ -7,17 +7,17 @@ export default function Index() {
 
   if (isLoading) {
     return (
-      <View>
+      <View className="flex-1 justify-center">
         <ActivityIndicator />
-        <Text>Loading characters...</Text>
+        <Text className="text-center">Loading characters...</Text>
       </View>
     );
   }
 
   if (error) {
     return (
-      <View>
-        <Text>Failed to load data</Text>
+      <View className="flex-1 align-middle justify-center">
+        <Text className="text-center">Failed to load data</Text>
         <Button title="Retry" onPress={refetch} />
       </View>
     );
@@ -29,14 +29,16 @@ export default function Index() {
         data={data}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <Card>
-            <Image source={{ uri: item.image }} width={100} height={100} />
-            <Card.Content>
-              <Text>{item.name}</Text>
-              <Text>{item.species}</Text>
-              <Text>{item.location.name}</Text>
-            </Card.Content>
-          </Card>
+          <View className="mx-4 my-2">
+            <Card>
+              <Card.Content>
+                <Image source={{ uri: item.image }} className="flex-1 h-44" />
+                <Text variant="titleMedium">{item.name}</Text>
+                <Text>{item.species}</Text>
+                <Text>{item.location.name}</Text>
+              </Card.Content>
+            </Card>
+          </View>
         )}
       />
     </View>
