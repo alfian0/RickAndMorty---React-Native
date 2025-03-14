@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 
-export interface Location {
+interface Location {
   name: string;
   url: string;
 }
 
-export interface Character {
+interface Character {
   id: number;
   name: string;
   status: "Alive" | "Dead";

@@ -1,8 +1,16 @@
 import { http, HttpResponse } from "msw";
 
 export const handlers = [
-  http.get("https://rickandmortyapi.com/api/character", ({ params }) => {
+  http.get("https://rickandmortyapi.com/api/character", ({ request }) => {
+    // Extract URL parameters
+    const url = new URL(request.url);
+    const page = url.searchParams.get("page") || "1"; // Default to page "1"
+
     return HttpResponse.json({
+      info: {
+        next: page === "1" ? "2" : null, // Simulate pagination
+        page: Number(page),
+      },
       results: [
         {
           id: 1,

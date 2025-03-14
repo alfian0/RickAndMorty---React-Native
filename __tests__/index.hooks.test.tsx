@@ -1,4 +1,4 @@
-import useIndex, { Character } from "@/app/index.hooks";
+import useIndex from "@/app/index.hooks";
 import { renderHook, act, waitFor } from "@testing-library/react-native";
 import fetchMock from "jest-fetch-mock";
 
