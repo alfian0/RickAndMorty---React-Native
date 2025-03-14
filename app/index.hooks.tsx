@@ -18,26 +18,58 @@ interface Character {
 }
 
 export const useIndex = () => {
-  const [data, setData] = useState<Character[]>();
-  const [error, setError] = useState<any>();
+  const [data, setData] = useState<Character[]>([]);
+  const [error, setError] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
+  const [page, setPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(true);
 
   useEffect(() => {
-    fetchData();
+    fetchData(page);
   }, []);
 
-  const fetchData = async () => {
+  const fetchData = async (pageNumber: number) => {
     try {
-      setIsLoading(true);
-      const response = await fetch("https://rickandmortyapi.com/api/character");
+      if (pageNumber === 1) setIsLoading(true);
+      else setIsFetchingMore(true);
+
+      const response = await fetch(
+        `https://rickandmortyapi.com/api/character?page=${pageNumber}`
+      );
       const json = await response.json();
-      setData(json.results);
+
+      if (pageNumber === 1) {
+        setData(json.results);
+      } else {
+        setData((prevData) => [...prevData, ...json.results]);
+      }
+
+      setHasNextPage(json.info?.next !== null);
     } catch (error) {
       setError(error);
     } finally {
       setIsLoading(false);
+      setIsFetchingMore(false);
     }
   };
 
-  return { data, error, isLoading, refetch: fetchData };
+  const loadMore = () => {
+    if (hasNextPage && !isFetchingMore) {
+      setPage((prevPage) => {
+        const nextPage = prevPage + 1;
+        fetchData(nextPage);
+        return nextPage;
+      });
+    }
+  };
+
+  return {
+    data,
+    error,
+    isLoading,
+    isFetchingMore,
+    refetch: () => fetchData(1),
+    loadMore,
+  };
 };
