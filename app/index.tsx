@@ -1,6 +1,16 @@
-import { ActivityIndicator, FlatList, View, Image } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  View,
+  Image,
+  Dimensions,
+} from "react-native";
 import { useIndex } from "./index.hooks";
 import { Card, Text, Button } from "react-native-paper";
+
+const numColumns = 2; // Number of columns in grid
+const screenWidth = Dimensions.get("window").width;
+const cardWidth = screenWidth / numColumns - 16; // Adjust spacing
 
 export default function Index() {
   const { data, error, isLoading, isFetchingMore, refetch, loadMore } =
@@ -31,13 +41,18 @@ export default function Index() {
       <FlatList
         data={data}
         keyExtractor={(item) => item.id.toString()}
+        numColumns={numColumns} // Enable grid layout
+        columnWrapperStyle={{
+          justifyContent: "space-between",
+          paddingHorizontal: 8,
+        }} // Evenly distribute columns
         renderItem={({ item }) => (
-          <View className="mx-4 my-2">
+          <View style={{ width: cardWidth, marginVertical: 8 }}>
             <Card>
               <Card.Content>
                 <Image
                   source={{ uri: item.image }}
-                  className="w-full h-44 rounded-md"
+                  style={{ width: "100%", height: 120, borderRadius: 8 }}
                 />
                 <Text variant="titleMedium">{item.name}</Text>
                 <Text>{item.species}</Text>
@@ -47,7 +62,7 @@ export default function Index() {
           </View>
         )}
         onEndReached={loadMore}
-        onEndReachedThreshold={0.5} // Triggers when scrolled halfway
+        onEndReachedThreshold={0.5}
         ListFooterComponent={
           isFetchingMore ? (
             <View className="py-4 items-center">
