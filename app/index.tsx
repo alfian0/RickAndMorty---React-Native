@@ -25,13 +25,10 @@ export default function Index() {
 
   const renderItem: ListRenderItem<any> = useCallback(({ item }) => {
     return (
-      <View style={{ width: cardWidth, marginVertical: 8 }}>
-        <Card>
+      <View style={{ width: cardWidth }} className="my-1">
+        <Card className="overflow-hidden">
+          <Image source={{ uri: item.image }} className="h-44" />
           <Card.Content>
-            <Image
-              source={{ uri: item.image }}
-              style={{ width: "100%", height: 120, borderRadius: 8 }}
-            />
             <Text variant="titleMedium">{item.name}</Text>
             <Text>{item.species}</Text>
             <Text>{item.location.name}</Text>
