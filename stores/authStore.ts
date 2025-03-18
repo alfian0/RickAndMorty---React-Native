@@ -33,59 +33,59 @@ export const useAuthStore = create<AuthState & AuthAction>((set) => ({
 
   login: async (email, password) => {
     set({ loading: true, error: null });
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const usr = userCredential.user;
-        set({
-          user: {
-            displayName: usr.displayName,
-            email: usr.email,
-            phoneNumber: usr.phoneNumber,
-            photoURL: usr.photoURL,
-          },
-          loading: false,
-        });
-      })
-      .catch((error) => {
-        set({ error: error.message, loading: false });
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const usr = userCredential.user;
+      set({
+        user: {
+          displayName: usr.displayName,
+          email: usr.email,
+          phoneNumber: usr.phoneNumber,
+          photoURL: usr.photoURL,
+        },
+        loading: false,
+        error: null,
       });
+    } catch (error: any) {
+      set({ user: null, error: error.message, loading: false });
+    }
   },
 
   register: async (email, password) => {
     set({ loading: true, error: null });
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const usr = userCredential.user;
-        set({
-          user: {
-            displayName: usr.displayName,
-            email: usr.email,
-            phoneNumber: usr.phoneNumber,
-            photoURL: usr.photoURL,
-          },
-          loading: false,
-        });
-      })
-      .catch((error) => {
-        set({ error: error.message, loading: false });
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const usr = userCredential.user;
+      set({
+        user: {
+          displayName: usr.displayName,
+          email: usr.email,
+          phoneNumber: usr.phoneNumber,
+          photoURL: usr.photoURL,
+        },
+        loading: false,
+        error: null,
       });
+    } catch (error: any) {
+      set({ user: null, error: error.message, loading: false });
+    }
   },
 
   logout: async () => {
     set({ loading: true });
-    await signOut(auth);
-    set({ user: null, loading: false });
+    try {
+      await signOut(auth);
+      set({ user: null, loading: false, error: null });
+    } catch (error: any) {
+      set({ user: null, error: error.message, loading: false });
+    }
   },
 }));
-
-onAuthStateChanged(auth, (user) => {
-  if (user)
-    useAuthStore.setState({
-      user: {
-        displayName: user.displayName,
-        email: user?.email,
-        phoneNumber: user.phoneNumber,
-        photoURL: user.photoURL,
-      },
-    });
-});
