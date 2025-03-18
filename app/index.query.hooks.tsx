@@ -5,7 +5,10 @@ const fetchCharacters = async ({ pageParam = 1 }): Promise<APIResponse> => {
   const response = await fetch(
     `https://rickandmortyapi.com/api/character?page=${pageParam}`
   );
-  if (!response.ok) throw new Error("Failed to fetch data");
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch data");
+  }
   return response.json();
 };
 
@@ -25,6 +28,7 @@ export default function useIndex() {
     getNextPageParam: (lastPage) => {
       return lastPage.info?.next ? lastPage.info.page + 1 : undefined;
     },
+    retry: false, // ✅ Disable automatic retries
   });
 
   return {

@@ -25,6 +25,7 @@ export default function useIndex() {
     getNextPageParam: (lastPage) => {
       return lastPage.info?.next ? lastPage.info.page + 1 : undefined;
     },
+    retry: false,
   });
 
   return {
