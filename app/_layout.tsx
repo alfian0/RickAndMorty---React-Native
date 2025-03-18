@@ -11,6 +11,7 @@ export default function RootLayout() {
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   useEffect(() => {
+    console.log(user);
     setIsAuthChecked(true);
     if (isAuthChecked) {
       if (!user) {

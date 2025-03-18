@@ -1,48 +1,73 @@
 import { create } from "zustand";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../firebaseConfig";
 
-interface AuthStore {
-  user: { email: string } | null;
+type User = {
+  displayName: string | null;
+  email: string | null;
+  phoneNumber: string | null;
+  photoURL: string | null;
+};
+
+type AuthState = {
+  user: User | null;
   loading: boolean;
   error: string | null;
+};
+
+type AuthAction = {
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-}
+};
 
-export const useAuthStore = create<AuthStore>((set) => ({
+export const useAuthStore = create<AuthState & AuthAction>((set) => ({
   user: null,
   loading: false,
   error: null,
 
   login: async (email, password) => {
     set({ loading: true, error: null });
-    try {
-      // Mock API call delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Mock authentication success (you can replace this with a real API call)
-      if (email === "test@example.com" && password === "password123") {
-        set({ user: { email }, loading: false });
-      } else {
-        set({ user: null, loading: false });
-        throw new Error("Invalid credentials");
-      }
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
-    }
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const usr = userCredential.user;
+        set({
+          user: {
+            displayName: usr.displayName,
+            email: usr.email,
+            phoneNumber: usr.phoneNumber,
+            photoURL: usr.photoURL,
+          },
+          loading: false,
+        });
+      })
+      .catch((error) => {
+        set({ error: error.message, loading: false });
+      });
   },
 
   register: async (email, password) => {
     set({ loading: true, error: null });
-    try {
-      // Mock API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // Assume registration always succeeds
-      set({ user: { email }, loading: false });
-    } catch (error: any) {
-      set({ error: error.message, loading: false });
-    }
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const usr = userCredential.user;
+        set({
+          user: {
+            displayName: usr.displayName,
+            email: usr.email,
+            phoneNumber: usr.phoneNumber,
+            photoURL: usr.photoURL,
+          },
+          loading: false,
+        });
+      })
+      .catch((error) => {
+        set({ error: error.message, loading: false });
+      });
   },
 
   logout: async () => {
@@ -51,3 +76,15 @@ export const useAuthStore = create<AuthStore>((set) => ({
     set({ user: null, loading: false });
   },
 }));
+
+onAuthStateChanged(auth, (user) => {
+  if (user)
+    useAuthStore.setState({
+      user: {
+        displayName: user.displayName,
+        email: user?.email,
+        phoneNumber: user.phoneNumber,
+        photoURL: user.photoURL,
+      },
+    });
+});
