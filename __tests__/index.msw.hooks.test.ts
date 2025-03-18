@@ -1,5 +1,5 @@
 import { renderHook, act, waitFor } from "@testing-library/react-native";
-import { server } from "../mocks/server";
+import { server } from "../__mocks__/server";
 import { http, HttpResponse } from "msw";
 import useIndex from "@/app/index.hooks";
 

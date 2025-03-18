@@ -1,6 +1,6 @@
 import { renderHook, act, waitFor } from "@testing-library/react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { server } from "@/mocks/server";
+import { server } from "@/__mocks__/server";
 import useIndex from "@/app/index.hooks";
 import { http, HttpResponse } from "msw";
 
