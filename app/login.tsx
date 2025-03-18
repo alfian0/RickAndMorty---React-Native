@@ -1,6 +1,8 @@
 import CustomInput from "@/components/customInput";
-import { useForm } from "react-hook-form";
+import { useAuthStore } from "@/stores/authStore";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Button, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 
 const re =
   /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -11,16 +13,29 @@ interface LoginInputs {
 }
 
 export default function Login() {
+  const { login, loading, error } = useAuthStore();
   const {
     control,
     handleSubmit,
     formState: { errors },
     watch,
   } = useForm<LoginInputs>({
-    defaultValues: { email: "default email" },
+    defaultValues: { email: "test@example.com", password: "password123" },
   });
 
   const pwd = watch("password");
+
+  const onSubmit: SubmitHandler<LoginInputs> = (data) => {
+    login(data.email, data.password);
+  };
+
+  if (loading) {
+    return (
+      <View className="flex-1 justify-center items-center">
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
@@ -49,7 +64,8 @@ export default function Login() {
             placeholder="password"
             secureTextEntry
           />
-          <Button title="SignIn" onPress={handleSubmit(() => {})} />
+          {error && <Text className="text-red-500 mb-2">{error}</Text>}
+          <Button title="SignIn" onPress={handleSubmit(onSubmit)} />
         </View>
       </SafeAreaView>
     </ScrollView>
