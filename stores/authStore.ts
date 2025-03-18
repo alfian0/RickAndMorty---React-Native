@@ -3,6 +3,7 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 
@@ -72,7 +73,7 @@ export const useAuthStore = create<AuthState & AuthAction>((set) => ({
 
   logout: async () => {
     set({ loading: true });
-    await new Promise((resolve) => setTimeout(resolve, 500)); // Mock delay
+    await signOut(auth);
     set({ user: null, loading: false });
   },
 }));

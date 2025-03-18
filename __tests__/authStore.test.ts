@@ -2,6 +2,8 @@ import { useAuthStore } from "@/stores/authStore";
 import { renderHook } from "@testing-library/react-native";
 import { act } from "react";
 
+jest.mock("firebase/auth");
+
 describe("Auth Store", () => {
   it("should start with default state", () => {
     const { result } = renderHook(() => useAuthStore());
