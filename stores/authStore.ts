@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import {
   createUserWithEmailAndPassword,
-  onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
@@ -89,7 +88,3 @@ export const useAuthStore = create<AuthState & AuthAction>((set) => ({
     }
   },
 }));
-
-onAuthStateChanged(auth, (user) => {
-  useAuthStore.setState({ user });
-});

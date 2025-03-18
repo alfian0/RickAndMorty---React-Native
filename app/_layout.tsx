@@ -4,13 +4,23 @@ import "../global.css";
 import { useAuthStore } from "@/stores/authStore";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebaseConfig";
 
 export default function RootLayout() {
   const { user } = useAuthStore();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   useEffect(() => {
-    setIsAuthChecked(true);
+    const subs = onAuthStateChanged(auth, (user) => {
+      useAuthStore.setState({ user });
+      setIsAuthChecked(true);
+    });
+
+    return subs;
+  }, []);
+
+  useEffect(() => {
     if (isAuthChecked) {
       if (!user) {
         router.replace("/login");
