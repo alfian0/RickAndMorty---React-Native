@@ -39,35 +39,33 @@ export default function Login() {
 
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
-      <SafeAreaView>
-        <View className="flex-1">
-          <CustomInput
-            control={control}
-            name="email"
-            rules={{
-              required: "email is required",
-              pattern: { value: re, message: "email is invalid" },
-            }}
-            placeholder="email"
-            secureTextEntry={false}
-          />
-          <CustomInput
-            control={control}
-            name="password"
-            rules={{
-              required: "password is required",
-              minLength: {
-                value: 3,
-                message: "Password should minimum 3 characther long",
-              },
-            }}
-            placeholder="password"
-            secureTextEntry
-          />
-          {error && <Text className="text-red-500 mb-2">{error}</Text>}
-          <Button title="SignIn" onPress={handleSubmit(onSubmit)} />
-        </View>
-      </SafeAreaView>
+      <View className="flex-1">
+        <CustomInput
+          control={control}
+          name="email"
+          rules={{
+            required: "email is required",
+            pattern: { value: re, message: "email is invalid" },
+          }}
+          placeholder="email"
+          secureTextEntry={false}
+        />
+        <CustomInput
+          control={control}
+          name="password"
+          rules={{
+            required: "password is required",
+            minLength: {
+              value: 3,
+              message: "Password should minimum 3 characther long",
+            },
+          }}
+          placeholder="password"
+          secureTextEntry
+        />
+        {error && <Text className="text-red-500 mb-2">{error}</Text>}
+        <Button title="SignIn" onPress={handleSubmit(onSubmit)} />
+      </View>
     </ScrollView>
   );
 }

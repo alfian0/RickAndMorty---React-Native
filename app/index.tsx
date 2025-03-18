@@ -7,8 +7,8 @@ import {
   ListRenderItem,
 } from "react-native";
 import { Card, Text, Button } from "react-native-paper";
-import useIndex from "./index.hooks";
 import { useCallback, useMemo } from "react";
+import useIndex from "@/hooks/index.hooks";
 
 const numColumns = 2; // Number of columns in grid
 const screenWidth = Dimensions.get("window").width;

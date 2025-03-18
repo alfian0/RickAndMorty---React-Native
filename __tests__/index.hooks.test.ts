@@ -1,4 +1,4 @@
-import useIndex from "@/app/index.hooks";
+import useIndex from "@/hooks/index.hooks";
 import { renderHook, act, waitFor } from "@testing-library/react-native";
 
 describe("useIndex Hook", () => {
