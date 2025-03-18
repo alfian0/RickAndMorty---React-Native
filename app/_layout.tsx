@@ -1,7 +1,6 @@
-import { router, Slot, Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import { ActivityIndicator, PaperProvider } from "react-native-paper";
 import "../global.css";
-import Login from "./login";
 import { useAuthStore } from "@/stores/authStore";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
@@ -11,7 +10,6 @@ export default function RootLayout() {
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   useEffect(() => {
-    console.log(user);
     setIsAuthChecked(true);
     if (isAuthChecked) {
       if (!user) {
