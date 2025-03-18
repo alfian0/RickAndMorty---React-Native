@@ -21,7 +21,7 @@ export default function useIndex() {
   } = useInfiniteQuery({
     queryKey: ["characters"],
     queryFn: fetchCharacters,
-    initialPageParam: 0,
+    initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       return lastPage.info?.next ? lastPage.info.page + 1 : undefined;
     },

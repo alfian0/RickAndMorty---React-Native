@@ -4,7 +4,7 @@ import Character from "@/types/character";
 
 export default function useIndex() {
   const [data, setData] = useState<Character[]>([]);
-  const [error, setError] = useState<any>(null);
+  const [error, setError] = useState<any>(undefined);
   const [isLoading, setIsLoading] = useState(false);
   const [isFetchingMore, setIsFetchingMore] = useState(false);
   const [page, setPage] = useState(1);
