@@ -52,7 +52,12 @@ export default function Index() {
     return (
       <View className="flex-1 justify-center items-center">
         <Text className="text-center text-red-500">Failed to load data</Text>
-        <Button mode="contained" onPress={refetch}>
+        <Button
+          mode="contained"
+          onPress={() => {
+            refetch();
+          }}
+        >
           Retry
         </Button>
       </View>

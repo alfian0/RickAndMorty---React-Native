@@ -26,7 +26,9 @@ export default function useIndex() {
     queryFn: fetchCharacters,
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
-      return lastPage.info?.next ? lastPage.info.page + 1 : undefined;
+      return lastPage.info?.next
+        ? Number(lastPage.info.next.at(-1))
+        : undefined;
     },
     retry: false, // ✅ Disable automatic retries
   });
