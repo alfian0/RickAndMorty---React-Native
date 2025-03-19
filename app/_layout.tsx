@@ -6,10 +6,12 @@ import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export default function RootLayout() {
   const { user } = useAuthStore();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const queryClient = new QueryClient();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -39,8 +41,10 @@ export default function RootLayout() {
   }
 
   return (
-    <PaperProvider>
-      <Stack />
-    </PaperProvider>
+    <QueryClientProvider client={queryClient}>
+      <PaperProvider>
+        <Stack />
+      </PaperProvider>
+    </QueryClientProvider>
   );
 }

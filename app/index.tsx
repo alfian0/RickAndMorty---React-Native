@@ -8,7 +8,8 @@ import {
 } from "react-native";
 import { Card, Text, Button } from "react-native-paper";
 import { useCallback, useMemo } from "react";
-import useIndex from "@/hooks/index.hooks";
+// import useIndex from "@/hooks/index.hooks";
+import useIndex from "@/hooks/index.axios.query.hooks";
 
 const numColumns = 2; // Number of columns in grid
 const screenWidth = Dimensions.get("window").width;
