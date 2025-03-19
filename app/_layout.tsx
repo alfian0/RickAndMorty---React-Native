@@ -12,12 +12,12 @@ export default function RootLayout() {
   const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   useEffect(() => {
-    const subs = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       useAuthStore.setState({ user });
       setIsAuthChecked(true);
     });
 
-    return subs;
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
