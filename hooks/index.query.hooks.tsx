@@ -26,9 +26,14 @@ export default function useIndex() {
     queryFn: fetchCharacters,
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
-      return lastPage.info?.next
-        ? Number(lastPage.info.next.at(-1))
-        : undefined;
+      if (!lastPage.info?.next) return undefined; // No more pages
+
+      // Parse the "next" URL to extract the "page" parameter
+      const url = new URL(lastPage.info.next);
+      const pageParam = url.searchParams.get("page");
+
+      // Return the page number as a number (or undefined if not found)
+      return pageParam ? Number(pageParam) : undefined;
     },
     retry: false, // ✅ Disable automatic retries
   });
