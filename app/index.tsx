@@ -10,12 +10,15 @@ import { Card, Text, Button } from "react-native-paper";
 import { useCallback, useMemo } from "react";
 // import useIndex from "@/hooks/index.hooks";
 import useIndex from "@/hooks/index.axios.query.hooks";
+import { useAuthStore } from "@/stores/authStore";
+import { Stack } from "expo-router";
 
 const numColumns = 2; // Number of columns in grid
 const screenWidth = Dimensions.get("window").width;
 const cardWidth = screenWidth / numColumns - 16; // Adjust spacing
 
 export default function Index() {
+  const { logout } = useAuthStore();
   const { data, error, isLoading, isFetchingMore, refetch, loadMore } =
     useIndex();
 
@@ -27,6 +30,12 @@ export default function Index() {
   const renderItem: ListRenderItem<any> = useCallback(({ item }) => {
     return (
       <View style={{ width: cardWidth }} className="my-1">
+        <Stack.Screen
+          options={{
+            title: "Rick and Morty",
+            headerRight: () => <Button onPress={() => logout()}>Logout</Button>,
+          }}
+        />
         <Card className="overflow-hidden">
           <Image source={{ uri: item.image }} className="h-44" />
           <Card.Content>

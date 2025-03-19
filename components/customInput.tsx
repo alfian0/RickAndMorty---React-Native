@@ -1,10 +1,11 @@
-import { Text, TextInput, View } from "react-native";
+import { Text, View } from "react-native";
 import {
   Controller,
   Control,
   RegisterOptions,
   FieldValues,
 } from "react-hook-form";
+import { TextInput } from "react-native-paper";
 
 interface CustomInputProps {
   control: Control<any>;
@@ -30,8 +31,10 @@ const CustomInput = ({
         field: { value, onChange, onBlur },
         fieldState: { error },
       }) => (
-        <View>
+        <View className="my-2">
           <TextInput
+            label={name}
+            mode="outlined"
             value={value}
             onChangeText={onChange}
             onBlur={onBlur}
