@@ -1,6 +1,5 @@
+import Character from "@/src/types/character";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import Character from "@/types/character";
 
 export default function useIndex() {
   const [data, setData] = useState<Character[]>([]);
@@ -15,28 +14,28 @@ export default function useIndex() {
   }, []);
 
   const fetchData = async (pageNumber: number) => {
-    if (pageNumber === 1) setIsLoading(true);
-    else setIsFetchingMore(true);
+    try {
+      if (pageNumber === 1) setIsLoading(true);
+      else setIsFetchingMore(true);
 
-    axios
-      .get(`https://rickandmortyapi.com/api/character?page=${pageNumber}`)
-      .then(({ data }) => {
-        setData((prevData) =>
-          pageNumber === 1 ? data.results : [...prevData, ...data.results]
-        );
-        setHasNextPage(data.info?.next !== null);
-      })
-      .catch((err) => {
-        setError(
-          axios.isAxiosError(err)
-            ? err.response?.data || "API Error"
-            : "Something went wrong"
-        );
-      })
-      .finally(() => {
-        setIsLoading(false);
-        setIsFetchingMore(false);
-      });
+      const response = await fetch(
+        `https://rickandmortyapi.com/api/character?page=${pageNumber}`
+      );
+      const json = await response.json();
+
+      if (pageNumber === 1) {
+        setData(json.results);
+      } else {
+        setData((prevData) => [...prevData, ...json.results]);
+      }
+
+      setHasNextPage(json.info?.next !== null);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+      setIsFetchingMore(false);
+    }
   };
 
   const loadMore = () => {

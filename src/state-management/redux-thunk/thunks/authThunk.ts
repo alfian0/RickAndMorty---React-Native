@@ -10,8 +10,8 @@ import {
   logoutRequest,
   logoutSuccess,
   logoutFailure,
-} from "./authActions";
-import { auth } from "../../firebaseConfig";
+} from "../../redux/action/authActions";
+import { auth } from "../../../../firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,

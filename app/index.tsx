@@ -9,13 +9,16 @@ import {
 import { Card, Text, Button } from "react-native-paper";
 import { useCallback, useMemo } from "react";
 // import useIndex from "@/hooks/index.hooks";
-import useIndex from "@/hooks/index.axios.query.hooks";
-import { useAuthStore } from "@/stores/authStore";
+import useIndex from "@/src/state-management/tanstack-query/index.axios.query.hooks";
+import { useAuthStore } from "@/src/state-management/zustand/authStore";
 import { Stack } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "@/stores/redux/authStore";
-import { logout } from "@/stores/redux/authThunk";
-import { logoutRequest } from "../stores/redux-toolkit/authSlice";
+import {
+  AppDispatch,
+  RootState,
+} from "@/src/state-management/redux-thunk/authStore";
+import { logout } from "@/src/state-management/redux-thunk/thunks/authThunk";
+import { logoutRequest } from "../src/state-management/redux-toolkit/slices/thunk/authSlice";
 
 const numColumns = 2; // Number of columns in grid
 const screenWidth = Dimensions.get("window").width;

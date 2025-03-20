@@ -2,7 +2,7 @@ import { renderHook, act, waitFor } from "@testing-library/react-native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { server } from "@/__mocks__/server";
 // import useIndex from "@/app/index.query.hooks";
-import useIndex from "@/hooks/index.axios.query.hooks";
+import useIndex from "@/src/state-management/tanstack-query/index.axios.query.hooks";
 import { http, HttpResponse } from "msw";
 
 describe("useIndex Hook", () => {

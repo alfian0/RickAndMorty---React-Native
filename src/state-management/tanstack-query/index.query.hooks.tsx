@@ -1,4 +1,4 @@
-import Character, { APIResponse } from "@/types/character";
+import Character, { APIResponse } from "@/src/types/character";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 const fetchCharacters = async ({ pageParam = 1 }): Promise<APIResponse> => {

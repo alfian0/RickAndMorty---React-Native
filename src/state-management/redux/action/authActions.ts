@@ -1,5 +1,5 @@
 // authActions.js
-import User from "@/types/user";
+import User from "@/src/types/user";
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -10,7 +10,7 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
-} from "./actionTypes";
+} from "../types/actionTypes";
 
 export const loginRequest = () => ({
   type: LOGIN_REQUEST,

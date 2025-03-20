@@ -4,8 +4,8 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { auth } from "../firebaseConfig";
-import User from "@/types/user";
+import { auth } from "../../../firebaseConfig";
+import User from "@/src/types/user";
 
 type AuthState = {
   user: User | null;

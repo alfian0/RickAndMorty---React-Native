@@ -1,20 +1,19 @@
 import CustomInput from "@/components/customInput";
-import { useAuthStore } from "@/stores/authStore";
-import { AppDispatch, RootState } from "@/stores/redux/authStore";
-import { login } from "@/stores/redux/authThunk";
+import { useAuthStore } from "@/src/state-management/zustand/authStore";
+import {
+  AppDispatch,
+  RootState,
+} from "@/src/state-management/redux-thunk/authStore";
+import { login } from "@/src/state-management/redux-thunk/thunks/authThunk";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ScrollView, Text, View } from "react-native";
 import { ActivityIndicator, Button } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
-import { loginRequest } from "../stores/redux-toolkit/authSlice";
+import { loginRequest } from "../src/state-management/redux-toolkit/slices/saga/authSlice";
+import LoginInputs from "@/src/types/loginInput";
 
 const re =
   /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-
-interface LoginInputs {
-  email: string;
-  password: string;
-}
 
 export default function Login() {
   // React Hook Form
@@ -49,7 +48,7 @@ export default function Login() {
 
   // Saga
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    dispatch(loginRequest({ email: data.email, password: data.password }));
+    dispatch(loginRequest(data));
   };
 
   if (loading) {

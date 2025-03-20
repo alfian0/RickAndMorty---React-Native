@@ -1,7 +1,7 @@
 import { renderHook, act, waitFor } from "@testing-library/react-native";
 import { server } from "../__mocks__/server";
 import { http, HttpResponse } from "msw";
-import useIndex from "@/hooks/index.hooks";
+import useIndex from "@/src/hooks/index.hooks";
 // import useIndex from "@/app/index.axios.hooks";
 
 describe("useIndex Hook (MSW)", () => {

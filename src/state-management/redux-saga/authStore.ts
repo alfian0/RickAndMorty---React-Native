@@ -1,7 +1,7 @@
 // store.ts
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "redux-saga";
-import authReducer from "./authSlice"; // Your slice or reducer
+import authReducer from "../redux-toolkit/slices/saga/authSlice"; // Your slice or reducer
 import rootSaga from "./sagas"; // Root saga (we'll create this next)
 
 // Create the saga middleware

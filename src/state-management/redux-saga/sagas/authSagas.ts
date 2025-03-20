@@ -10,8 +10,8 @@ import {
   logoutRequest,
   logoutSuccess,
   logoutFailure,
-} from "../authSlice"; // Import actions from your slice
-import { auth } from "../../../firebaseConfig";
+} from "../../redux-toolkit/slices/saga/authSlice"; // Import actions from your slice
+import { auth } from "../../../../firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,

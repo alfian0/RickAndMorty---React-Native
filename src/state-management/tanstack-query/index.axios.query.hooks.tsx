@@ -1,4 +1,4 @@
-import { APIResponse } from "@/types/character";
+import { APIResponse } from "@/src/types/character";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 
