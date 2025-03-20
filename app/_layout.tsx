@@ -7,6 +7,8 @@ import { View } from "react-native";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Provider } from "react-redux";
+import store from "@/stores/redux/authStore";
 
 export default function RootLayout() {
   const { user } = useAuthStore();
@@ -41,10 +43,12 @@ export default function RootLayout() {
   }
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <PaperProvider>
-        <Stack />
-      </PaperProvider>
-    </QueryClientProvider>
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <PaperProvider>
+          <Stack />
+        </PaperProvider>
+      </QueryClientProvider>
+    </Provider>
   );
 }

@@ -12,15 +12,27 @@ import { useCallback, useMemo } from "react";
 import useIndex from "@/hooks/index.axios.query.hooks";
 import { useAuthStore } from "@/stores/authStore";
 import { Stack } from "expo-router";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/stores/redux/authStore";
+import { logout } from "@/stores/redux/authThunk";
 
 const numColumns = 2; // Number of columns in grid
 const screenWidth = Dimensions.get("window").width;
 const cardWidth = screenWidth / numColumns - 16; // Adjust spacing
 
 export default function Index() {
-  const { logout } = useAuthStore();
   const { data, error, isLoading, isFetchingMore, refetch, loadMore } =
     useIndex();
+
+  // Zustand
+  // const { logout } = useAuthStore();
+
+  // Redux
+  const dispatch = useDispatch<AppDispatch>();
+  const { user } = useSelector((state: RootState) => state.auth);
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   const keyExtractor = useMemo(
     () => (item: any, index: number) => String(index),
@@ -33,7 +45,10 @@ export default function Index() {
         <Stack.Screen
           options={{
             title: "Rick and Morty",
-            headerRight: () => <Button onPress={() => logout()}>Logout</Button>,
+            // headerRight: () => <Button onPress={() => logout()}>Logout</Button>,
+            headerRight: () => (
+              <Button onPress={() => handleLogout()}>Logout</Button>
+            ),
           }}
         />
         <Card className="overflow-hidden">

@@ -5,13 +5,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { auth } from "../firebaseConfig";
-
-type User = {
-  displayName: string | null;
-  email: string | null;
-  phoneNumber: string | null;
-  photoURL: string | null;
-};
+import User from "@/types/user";
 
 type AuthState = {
   user: User | null;
