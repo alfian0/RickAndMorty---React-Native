@@ -11,25 +11,18 @@ import {
   logoutSuccess,
   logoutFailure,
 } from "../../redux-toolkit/slices/saga/authSlice"; // Import actions from your slice
-import { auth } from "../../../../firebaseConfig";
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  UserCredential,
-} from "firebase/auth";
+  loginWithEmail,
+  registerWithEmail,
+  logoutUser,
+} from "@/src/services/firebaseAuthService";
+import User from "@/src/types/user";
 
 // Login saga
 function* loginSaga(action: ReturnType<typeof loginRequest>) {
   try {
     const { email, password } = action.payload;
-    const userCredential: UserCredential = yield call(
-      signInWithEmailAndPassword,
-      auth,
-      email,
-      password
-    );
-    const user = userCredential.user;
+    const user: User = yield call(loginWithEmail, email, password);
     yield put(
       loginSuccess({
         displayName: user.displayName,
@@ -47,13 +40,7 @@ function* loginSaga(action: ReturnType<typeof loginRequest>) {
 function* registerSaga(action: ReturnType<typeof registerRequest>) {
   try {
     const { email, password } = action.payload;
-    const userCredential: UserCredential = yield call(
-      createUserWithEmailAndPassword,
-      auth,
-      email,
-      password
-    );
-    const user = userCredential.user;
+    const user: User = yield call(registerWithEmail, email, password);
     yield put(
       registerSuccess({
         displayName: user.displayName,
@@ -70,7 +57,7 @@ function* registerSaga(action: ReturnType<typeof registerRequest>) {
 // Logout saga
 function* logoutSaga() {
   try {
-    yield call(signOut, auth);
+    yield call(logoutUser);
     yield put(logoutSuccess());
   } catch (error: any) {
     yield put(logoutFailure(error.message));

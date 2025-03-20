@@ -11,23 +11,17 @@ import {
   logoutSuccess,
   logoutFailure,
 } from "../../redux/action/authActions";
-import { auth } from "../../../../firebaseConfig";
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
+  loginWithEmail,
+  registerWithEmail,
+  logoutUser,
+} from "@/src/services/firebaseAuthService";
 
 export const login =
   (email: string, password: string) => async (dispatch: Dispatch) => {
     dispatch(loginRequest());
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
+      const user = await loginWithEmail(email, password);
       dispatch(
         loginSuccess({
           displayName: user.displayName,
@@ -45,12 +39,7 @@ export const register =
   (email: string, password: string) => async (dispatch: Dispatch) => {
     dispatch(registerRequest());
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
+      const user = await registerWithEmail(email, password);
       dispatch(
         registerSuccess({
           displayName: user.displayName,
@@ -67,7 +56,7 @@ export const register =
 export const logout = () => async (dispatch: Dispatch) => {
   dispatch(logoutRequest());
   try {
-    await signOut(auth);
+    await logoutUser();
     dispatch(logoutSuccess());
   } catch (error: any) {
     dispatch(logoutFailure(error.message));

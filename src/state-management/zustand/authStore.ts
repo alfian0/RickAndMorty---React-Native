@@ -1,11 +1,10 @@
 import { create } from "zustand";
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-} from "firebase/auth";
-import { auth } from "../../../firebaseConfig";
 import User from "@/src/types/user";
+import {
+  loginWithEmail,
+  registerWithEmail,
+  logoutUser,
+} from "@/src/services/firebaseAuthService";
 
 type AuthState = {
   user: User | null;
@@ -27,12 +26,7 @@ export const useAuthStore = create<AuthState & AuthAction>((set) => ({
   login: async (email, password) => {
     set({ loading: true, error: null });
     try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const usr = userCredential.user;
+      const usr = await loginWithEmail(email, password);
       set({
         user: {
           displayName: usr.displayName,
@@ -51,12 +45,7 @@ export const useAuthStore = create<AuthState & AuthAction>((set) => ({
   register: async (email, password) => {
     set({ loading: true, error: null });
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const usr = userCredential.user;
+      const usr = await registerWithEmail(email, password);
       set({
         user: {
           displayName: usr.displayName,
@@ -75,7 +64,7 @@ export const useAuthStore = create<AuthState & AuthAction>((set) => ({
   logout: async () => {
     set({ loading: true });
     try {
-      await signOut(auth);
+      await logoutUser();
       set({ user: null, loading: false, error: null });
     } catch (error: any) {
       set({ user: null, error: error.message, loading: false });
