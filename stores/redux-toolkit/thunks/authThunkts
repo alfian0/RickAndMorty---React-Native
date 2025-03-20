@@ -20,7 +20,8 @@ import {
 
 export const login =
   (email: string, password: string) => async (dispatch: Dispatch) => {
-    dispatch(loginRequest());
+    dispatch(loginRequest({ email, password })); // Saga
+    // dispatch(loginRequest()); // Thunk
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -43,7 +44,8 @@ export const login =
 
 export const register =
   (email: string, password: string) => async (dispatch: Dispatch) => {
-    dispatch(registerRequest());
+    dispatch(registerRequest({ email, password })); // Saga
+    // dispatch(registerRequest()); // Thunk
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,

@@ -15,6 +15,7 @@ import { Stack } from "expo-router";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/stores/redux/authStore";
 import { logout } from "@/stores/redux/authThunk";
+import { logoutRequest } from "../stores/redux-toolkit/authSlice";
 
 const numColumns = 2; // Number of columns in grid
 const screenWidth = Dimensions.get("window").width;
@@ -30,8 +31,15 @@ export default function Index() {
   // Redux
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
+
+  // Thunk
+  // const handleLogout = () => {
+  //   dispatch(logout());
+  // };
+
+  // Saga
   const handleLogout = () => {
-    dispatch(logout());
+    dispatch(logoutRequest());
   };
 
   const keyExtractor = useMemo(

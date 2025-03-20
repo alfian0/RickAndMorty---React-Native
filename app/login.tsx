@@ -6,6 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { ScrollView, Text, View } from "react-native";
 import { ActivityIndicator, Button } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
+import { loginRequest } from "../stores/redux-toolkit/authSlice";
 
 const re =
   /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -41,8 +42,14 @@ export default function Login() {
     (state: RootState) => state.auth
   );
 
+  // Thunk
+  // const onSubmit: SubmitHandler<LoginInputs> = (data) => {
+  //   dispatch(login(data.email, data.password));
+  // };
+
+  // Saga
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    dispatch(login(data.email, data.password));
+    dispatch(loginRequest({ email: data.email, password: data.password }));
   };
 
   if (loading) {

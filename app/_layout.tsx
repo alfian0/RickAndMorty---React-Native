@@ -8,8 +8,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "react-redux";
-import store from "@/stores/redux/authStore";
-// import store from "@/stores/redux-toolkit/authStore";
+// import store from "@/stores/redux/authStore";
+import store from "@/stores/redux-toolkit/authStore";
 
 export default function RootLayout() {
   const { user } = useAuthStore();
