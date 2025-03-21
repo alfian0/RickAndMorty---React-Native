@@ -68,6 +68,11 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    authStateChanged(state, action: PayloadAction<User>) {
+      state.user = action.payload;
+      state.loading = false;
+      state.error = null;
+    },
   },
 });
 
@@ -82,6 +87,7 @@ export const {
   logoutRequest,
   logoutSuccess,
   logoutFailure,
+  authStateChanged,
 } = authSlice.actions;
 
 // Export the reducer

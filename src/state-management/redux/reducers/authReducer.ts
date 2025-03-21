@@ -10,6 +10,7 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
+  AUTH_STATE_CHANGED,
 } from "../types/actionTypes";
 
 type AuthState = {
@@ -57,6 +58,13 @@ const authReducer = (state = initialState, action: any): AuthState => {
         user: null,
         loading: false,
         error: action.payload,
+      };
+    case AUTH_STATE_CHANGED:
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+        error: null,
       };
     default:
       return state;

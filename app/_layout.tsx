@@ -7,17 +7,40 @@ import { View } from "react-native";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebaseConfig";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Provider } from "react-redux";
-import store from "@/src/state-management/redux-saga/authStore";
+import { Provider, useSelector } from "react-redux";
+import store, { RootState } from "@/src/state-management/redux-saga/authStore";
+import { authStateChanged } from "@/src/state-management/redux-toolkit/slices/saga/authSlice";
 
 export default function RootLayout() {
-  const { user } = useAuthStore();
+  return (
+    <Provider store={store}>
+      <ReduxLayout />
+    </Provider>
+  );
+}
+
+function ReduxLayout() {
+  // const { user } = useAuthStore();
   const [isAuthChecked, setIsAuthChecked] = useState(false);
   const queryClient = new QueryClient();
+  const { user } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      useAuthStore.setState({ user });
+      // Zustand
+      // useAuthStore.setState({ user });
+
+      // Redux
+      if (user) {
+        store.dispatch(
+          authStateChanged({
+            displayName: user.displayName,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            photoURL: user.photoURL,
+          })
+        );
+      }
       setIsAuthChecked(true);
     });
 
@@ -43,12 +66,10 @@ export default function RootLayout() {
   }
 
   return (
-    <Provider store={store}>
-      <QueryClientProvider client={queryClient}>
-        <PaperProvider>
-          <Stack />
-        </PaperProvider>
-      </QueryClientProvider>
-    </Provider>
+    <QueryClientProvider client={queryClient}>
+      <PaperProvider>
+        <Stack />
+      </PaperProvider>
+    </QueryClientProvider>
   );
 }

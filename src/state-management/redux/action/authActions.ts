@@ -10,6 +10,7 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
+  AUTH_STATE_CHANGED,
 } from "../types/actionTypes";
 
 export const loginRequest = () => ({
@@ -51,4 +52,9 @@ export const logoutSuccess = () => ({
 export const logoutFailure = (error: any) => ({
   type: LOGOUT_FAILURE,
   payload: error,
+});
+
+export const authStateChanged = (user: User | null) => ({
+  type: AUTH_STATE_CHANGED,
+  payload: user,
 });
