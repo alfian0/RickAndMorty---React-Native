@@ -4,7 +4,10 @@ import {
   loginRequest,
   registerRequest,
   logoutRequest,
+  authStateChanged,
 } from "../redux-toolkit/slices/saga/authSlice";
+import User from "@/src/types/user";
+import LoginInputs from "@/src/types/loginInput";
 
 export const useAuth = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -12,17 +15,29 @@ export const useAuth = () => {
     (state: RootState) => state.auth
   );
 
-  const loginUser = (email: string, password: string) => {
-    dispatch(loginRequest({ email, password }));
+  const loginUser = (input: LoginInputs) => {
+    dispatch(loginRequest(input));
   };
 
-  const registerUser = (email: string, password: string) => {
-    dispatch(registerRequest({ email, password }));
+  const registerUser = (input: LoginInputs) => {
+    dispatch(registerRequest(input));
   };
 
   const logoutUser = () => {
     dispatch(logoutRequest());
   };
 
-  return { user, loading, error, loginUser, registerUser, logoutUser };
+  const changedUser = (user: User) => {
+    dispatch(authStateChanged(user));
+  };
+
+  return {
+    user,
+    loading,
+    error,
+    loginUser,
+    registerUser,
+    logoutUser,
+    changedUser,
+  };
 };

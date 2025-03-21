@@ -8,9 +8,9 @@ import { login } from "@/src/state-management/redux-thunk/thunks/authThunk";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ScrollView, Text, View } from "react-native";
 import { ActivityIndicator, Button } from "react-native-paper";
-import { useDispatch, useSelector } from "react-redux";
-import { loginRequest } from "../src/state-management/redux-toolkit/slices/saga/authSlice";
+import { useDispatch } from "react-redux";
 import LoginInputs from "@/src/types/loginInput";
+import { useAuth } from "@/src/state-management/hooks/useAuth";
 
 const re =
   /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -37,9 +37,7 @@ export default function Login() {
 
   // Redux
   const dispatch = useDispatch<AppDispatch>();
-  const { user, loading, error } = useSelector(
-    (state: RootState) => state.auth
-  );
+  const { loading, error, loginUser } = useAuth();
 
   // Thunk
   // const onSubmit: SubmitHandler<LoginInputs> = (data) => {
@@ -48,7 +46,7 @@ export default function Login() {
 
   // Saga
   const onSubmit: SubmitHandler<LoginInputs> = (data) => {
-    dispatch(loginRequest(data));
+    loginUser(data);
   };
 
   if (loading) {

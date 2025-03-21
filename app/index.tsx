@@ -12,13 +12,9 @@ import { useCallback, useMemo } from "react";
 import useIndex from "@/src/state-management/tanstack-query/index.axios.query.hooks";
 import { useAuthStore } from "@/src/state-management/zustand/authStore";
 import { Stack } from "expo-router";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  AppDispatch,
-  RootState,
-} from "@/src/state-management/redux-thunk/authStore";
-import { logout } from "@/src/state-management/redux-thunk/thunks/authThunk";
-import { logoutRequest } from "../src/state-management/redux-toolkit/slices/thunk/authSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "@/src/state-management/redux-thunk/authStore";
+import { useAuth } from "@/src/state-management/hooks/useAuth";
 
 const numColumns = 2; // Number of columns in grid
 const screenWidth = Dimensions.get("window").width;
@@ -33,7 +29,8 @@ export default function Index() {
 
   // Redux
   const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.auth);
+  // const { user } = useSelector((state: RootState) => state.auth);
+  const { logoutUser } = useAuth();
 
   // Thunk
   // const handleLogout = () => {
@@ -42,7 +39,7 @@ export default function Index() {
 
   // Saga
   const handleLogout = () => {
-    dispatch(logoutRequest());
+    logoutUser();
   };
 
   const keyExtractor = useMemo(
