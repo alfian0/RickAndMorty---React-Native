@@ -8,7 +8,6 @@ import { login } from "@/src/state-management/redux-thunk/thunks/authThunk";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { ScrollView, Text, View } from "react-native";
 import { ActivityIndicator, Button } from "react-native-paper";
-import { useDispatch } from "react-redux";
 import LoginInputs from "@/src/types/loginInput";
 import { useAuth } from "@/src/state-management/hooks/useAuth";
 
@@ -36,7 +35,6 @@ export default function Login() {
   // };
 
   // Redux
-  const dispatch = useDispatch<AppDispatch>();
   const { loading, error, loginUser } = useAuth();
 
   // Thunk

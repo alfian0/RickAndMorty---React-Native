@@ -12,8 +12,6 @@ import { useCallback, useMemo } from "react";
 import useIndex from "@/src/state-management/tanstack-query/index.axios.query.hooks";
 import { useAuthStore } from "@/src/state-management/zustand/authStore";
 import { Stack } from "expo-router";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/src/state-management/redux-thunk/authStore";
 import { useAuth } from "@/src/state-management/hooks/useAuth";
 
 const numColumns = 2; // Number of columns in grid
@@ -28,8 +26,6 @@ export default function Index() {
   // const { logout } = useAuthStore();
 
   // Redux
-  const dispatch = useDispatch<AppDispatch>();
-  // const { user } = useSelector((state: RootState) => state.auth);
   const { logoutUser } = useAuth();
 
   // Thunk
